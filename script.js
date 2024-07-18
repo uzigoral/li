@@ -60,3 +60,36 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 });
 
+
+
+
+// DEFINICION CLASES
+
+
+class Personaje {
+    constructor(nombre, vida, defensa, velocidad, fuerza, destreza, sigilo, puzzle) {
+        this.nombre = nombre;
+        this.vida = vida; // Estrellas para Vida, inicialmente vacío
+        this.defensa = defensa; // Estrellas para Defensa, inicialmente vacío
+        this.velocidad = velocidad; // Estrellas para Velocidad, inicialmente vacío
+        this.fuerza = fuerza; // Estrellas para Fuerza, inicialmente vacío
+        this.destreza = destreza; // Estrellas para Destreza, inicialmente vacío
+        this.sigilo = sigilo; // Estrellas para Sigilo, inicialmente vacío
+        this.puzzle = puzzle; // Estrellas para Puzzle, inicialmente vacío
+    }
+
+    actualizarEstadisticas(vida, defensa, velocidad, fuerza, destreza, sigilo, puzzle) {
+        this.vida = vida;
+        this.defensa = defensa;
+        this.velocidad = velocidad;
+        this.fuerza = fuerza;
+        this.destreza = destreza;
+        this.sigilo = sigilo;
+        this.puzzle = puzzle;
+    }
+}
+
+// Crear instancias para cada personaje con estadísticas vacías
+const lisandro = new Personaje("Lisandro", "", "", "", "", "", "", "");
+const lucio = new Personaje("Lucio", "", "", "", "", "", "", "");
+const marcos = new Personaje("Marcos", "", "", "", "", "", "", "");
