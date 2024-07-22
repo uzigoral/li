@@ -93,13 +93,14 @@ header{
 
 
 button{
-    border: none;
+    border: 2px solid #c2c2c2;
     margin: 5%;
-    background-color:#810000 ;
+    background-color:#6d0808 ;
     padding: 14px 28px;
     color: white;
-    border-radius: 25px;
+    border-radius: 10px;
     width: auto;
+    font-size: 65%;
 }
 
 button:hover{
@@ -156,9 +157,44 @@ image,
     width: 12%;
     height: 2%;
     font-size: 90%;
+    border-radius: 25px;
+    border: none;
 }
 
 .img_historia{
     max-height: 80%;
     min-height: 1;
+}
+
+.cuarto_container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%; /* Asegúrate de que el contenedor ocupe todo el ancho disponible */
+}
+
+#cuarto_1 {
+    max-width: 100%; /* Asegúrate de que la imagen no desborde el contenedor */
+    width: 70%;
+    border: 2px solid rgb(184, 182, 182);
+}
+
+.console {
+    display: block;
+    border: 1px solid #ccc;
+    background-color: #000;
+    color: #fff;
+    padding: 10px;
+    width: 68%; /* Ocupa todo el ancho disponible del contenedor */
+    margin-top: 2%; /* Espacio arriba de la consola */
+    overflow-y: auto; /* Permite el desplazamiento si el contenido es demasiado grande */
+    height: 200px; /* Ajusta la altura según sea necesario */
+    justify-content: center;
+    border-radius: 15px;
+    margin: auto;
+    margin-top: 2%;
+}
+
+#console-output {
+    white-space: pre-wrap; /* Mantiene el formato del texto */
 }

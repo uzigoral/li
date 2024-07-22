@@ -66,30 +66,64 @@ document.addEventListener('DOMContentLoaded', function() {
 // DEFINICION CLASES
 
 
-class Personaje {
-    constructor(nombre, vida, defensa, velocidad, fuerza, destreza, sigilo, puzzle) {
-        this.nombre = nombre;
-        this.vida = vida; // Estrellas para Vida, inicialmente vacío
-        this.defensa = defensa; // Estrellas para Defensa, inicialmente vacío
-        this.velocidad = velocidad; // Estrellas para Velocidad, inicialmente vacío
-        this.fuerza = fuerza; // Estrellas para Fuerza, inicialmente vacío
-        this.destreza = destreza; // Estrellas para Destreza, inicialmente vacío
-        this.sigilo = sigilo; // Estrellas para Sigilo, inicialmente vacío
-        this.puzzle = puzzle; // Estrellas para Puzzle, inicialmente vacío
+document.addEventListener('DOMContentLoaded', function() {
+    // Manejo de selección de personaje
+    const buttons = document.querySelectorAll('button[data-character]');
+    
+    buttons.forEach(button => {
+        button.addEventListener('click', function(event) {
+            event.preventDefault(); // Evita la navegación predeterminada
+
+            const selectedCharacter = this.getAttribute('data-character');
+            console.log('Personaje seleccionado:', selectedCharacter);
+
+            // Aquí puedes hacer algo con el personaje seleccionado
+            // Por ejemplo, guardarlo en localStorage para usarlo en otras páginas
+            localStorage.setItem('selectedCharacter', selectedCharacter);
+
+            // Navegar a la siguiente página
+            window.location.href = this.parentElement.getAttribute('href');
+        });
+    });
+
+    // Opcional: Recuperar el personaje seleccionado en otras páginas
+    const selectedCharacter = localStorage.getItem('selectedCharacter');
+    if (selectedCharacter) {
+        console.log('Personaje seleccionado previamente:', selectedCharacter);
+        // Aquí puedes usar el personaje seleccionado para personalizar la página
     }
 
-    actualizarEstadisticas(vida, defensa, velocidad, fuerza, destreza, sigilo, puzzle) {
-        this.vida = vida;
-        this.defensa = defensa;
-        this.velocidad = velocidad;
-        this.fuerza = fuerza;
-        this.destreza = destreza;
-        this.sigilo = sigilo;
-        this.puzzle = puzzle;
-    }
-}
+    // Definición de clases
+    class Personaje {
+        constructor(nombre, vida, defensa, velocidad, fuerza, destreza, calma, puzzle) {
+            this.nombre = nombre;
+            this.vida = vida;
+            this.defensa = defensa;
+            this.velocidad = velocidad;
+            this.fuerza = fuerza;
+            this.destreza = destreza;
+            this.calma = calma;
+            this.puzzle = puzzle;
+        }
 
-// Crear instancias para cada personaje con estadísticas vacías
-const lisandro = new Personaje("Lisandro", "", "", "", "", "", "", "");
-const lucio = new Personaje("Lucio", "", "", "", "", "", "", "");
-const marcos = new Personaje("Marcos", "", "", "", "", "", "", "");
+        actualizarEstadisticas(vida, defensa, velocidad, fuerza, destreza, calma, puzzle) {
+            this.vida = vida;
+            this.defensa = defensa;
+            this.velocidad = velocidad;
+            this.fuerza = fuerza;
+            this.destreza = destreza;
+            this.calma = calma;
+            this.puzzle = puzzle;
+        }
+    }
+
+    // Crear instancias para cada personaje con estadísticas vacías
+    const lisandro = new Personaje("Lisandro", 40, 20, 40, 30, 30, 30, 10);
+    const lucio = new Personaje("Lucio", 50, 30, 10, 40, 20, 20, 30);
+    const marcos = new Personaje("Marcos", 30, 10, 20, 10, 50, 40, 40);
+
+    console.log(lisandro);
+    console.log(lucio);
+    console.log(marcos);
+    console.log(selectedCharacter)
+});
