@@ -198,3 +198,42 @@ image,
 #console-output {
     white-space: pre-wrap; /* Mantiene el formato del texto */
 }
+
+.item {
+    position: absolute; /* Posiciona los items de forma absoluta */
+    width: 4%; /* Tamaño de los items */
+    z-index: 10; /* Asegura que los items estén encima de la imagen */
+
+}
+
+.i1{
+    left: 47%;
+    width: 4%;
+    top: 56%;
+}
+
+.i2 {
+    width: 3%; /* Tamaño de los items */
+    transform: scale(0.8) rotate(60deg) skew(-30deg, -20deg);
+    border-radius: 0;
+    top: 37%;
+    left: 57%;
+}
+
+.i3{
+    left: 36%;
+    top: 46%;
+}
+
+.i4{
+    left: 36%;
+    top: 54%;
+    height: 8%;
+    width: 5%;
+}
+
+.i5{
+    left: 39%;
+    top: 75%;
+    transform: rotate(60deg) ;
+}

@@ -64,66 +64,140 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
 // DEFINICION CLASES
+document.addEventListener('DOMContentLoaded', () => {
+    // Recuperar la elección del personaje desde localStorage
+    const personajeGuardado = localStorage.getItem('personajeSeleccionado');
+    if (personajeGuardado) {
+        console.log(`${personajeGuardado} ha sido restaurado desde localStorage.`);
+    }
 
+    // Limpiar el inventario al comenzar una nueva partida
+    localStorage.removeItem('inventory'); // Esto asegura que el inventario está vacío al reiniciar el juego
 
-document.addEventListener('DOMContentLoaded', function() {
-    // Manejo de selección de personaje
-    const buttons = document.querySelectorAll('button[data-character]');
+    // Definición de personajes y sus estadísticas
+    const personajes = {
+        Lisandro: {
+            vida: 40,
+            defensa: 0.20,
+            velocidad: 0.35,
+            fuerza: 15,
+            destreza: 0.30,
+            calma: 0.60,
+            puzzle: 10
+        },
+        Lucio: {
+            vida: 50,
+            defensa: 0.30,
+            velocidad: 0.08,
+            fuerza: 20,
+            destreza: 0.20,
+            calma: 0.40,
+            puzzle: 30
+        },
+        Marcos: {
+            vida: 30,
+            defensa: 0.10,
+            velocidad: 0.17,
+            fuerza: 5, // + 5 con cuchillo mariposa (esto se añadirá cuando se equipen armas)
+            destreza: 0.60,
+            calma: 0.80,
+            puzzle: 40
+        }
+    };
+
+    // Recuperar el personaje actual y sus estadísticas
+    let personaje = personajes[personajeGuardado];
+    if (!personaje) {
+        // Si no hay personaje guardado, usa el primer personaje por defecto
+        personaje = personajes.Lisandro;
+    }
     
-    buttons.forEach(button => {
-        button.addEventListener('click', function(event) {
-            event.preventDefault(); // Evita la navegación predeterminada
+    // Actualizar estadísticas del personaje
+    function updateCharacterStats() {
+        personajes[personajeGuardado] = personaje;
+    }
 
-            const selectedCharacter = this.getAttribute('data-character');
-            console.log('Personaje seleccionado:', selectedCharacter);
+    let inventory = JSON.parse(localStorage.getItem('inventory')) || [];
+    console.log('Inventario inicial:', inventory);
 
-            // Aquí puedes hacer algo con el personaje seleccionado
-            // Por ejemplo, guardarlo en localStorage para usarlo en otras páginas
-            localStorage.setItem('selectedCharacter', selectedCharacter);
+    // Función para actualizar el inventario en localStorage
+    function updateInventory(itemName) {
+        // Asegurarse de que el inventario está vacío cuando se comienza una nueva partida
+        inventory = JSON.parse(localStorage.getItem('inventory')) || [];
+        if (!inventory.includes(itemName)) {
+            inventory.push(itemName);
+            localStorage.setItem('inventory', JSON.stringify(inventory));
+            console.log('Inventario actual:', inventory); // Mostrar el inventario completo
+        }
+    }
 
-            // Navegar a la siguiente página
-            window.location.href = this.parentElement.getAttribute('href');
+    // Función para actualizar la consola
+    function updateConsole(message) {
+        const consoleOutput = document.getElementById('console-output');
+        if (consoleOutput) {
+            consoleOutput.textContent = `* ${message}`; // Reemplaza el contenido de la consola con un asterisco
+        }
+    }
+
+    // Función para manejar el clic en los ítems
+    function handleItemClick(itemClass, allowedCharacter, successMessage, failureMessage, itemName, showNewItemClass, newImageSrc, increaseSpeed) {
+        const itemElement = document.querySelector(itemClass);
+        if (itemElement) {
+            itemElement.addEventListener('click', () => {
+                if (personajeGuardado === allowedCharacter) {
+                    itemElement.style.display = 'none';
+                    updateConsole(successMessage);
+                    updateInventory(itemName); // Guardar el ítem en el inventario
+                    if (showNewItemClass) {
+                        document.querySelector(showNewItemClass).style.display = 'block'; // Mostrar el nuevo ítem
+                    }
+                    if (newImageSrc) {
+                        const imageElement = document.getElementById('cuarto_1');
+                        if (imageElement) {
+                            imageElement.src = newImageSrc; // Cambiar la imagen
+                        }
+                    }
+                    if (increaseSpeed) {
+                        personaje.velocidad += 0.12; // Aumentar la velocidad en un 12%
+                        updateCharacterStats(); // Actualizar las estadísticas del personaje
+                        console.log(`La velocidad de ${personajeGuardado} ha aumentado a ${personaje.velocidad}`);
+                    }
+                } else {
+                    updateConsole(failureMessage);
+                }
+            });
+        }
+    }
+
+    // Función para verificar la visibilidad del ítem i5 según la imagen de fondo
+    function updateItemVisibility() {
+        const imageElement = document.getElementById('cuarto_1');
+        const item5Element = document.querySelector('.i5');
+        if (imageElement && item5Element) {
+            if (imageElement.src.includes('cuarto_1_tabla')) {
+                item5Element.style.display = 'block'; // Mostrar el ítem si la imagen es cuarto_1_tabla
+            } else {
+                item5Element.style.display = 'none'; // Ocultar el ítem si la imagen es cuarto_1
+            }
+        }
+    }
+
+    // Inicializar la visibilidad del ítem i5 basado en la imagen de fondo actual
+    updateItemVisibility();
+
+    // Manejadores de eventos para los ítems
+    handleItemClick('.i1', 'Marcos', 'Metes la cabeza y con la mano alcanzas algo, ¡Has encontrado un coffler air a la mitad!', 'Ves que hay un objeto, pero tu brazo no entra para agarrarlo...', 'Coffler Air a la mitad');
+    handleItemClick('.i2', 'Lisandro', 'Agarras un coffler air del techo', 'Ves un coffler air en el techo, pero no llegas a agarrarlo', 'Coffler Air');
+    handleItemClick('.i3', 'Lucio', 'Encontraste un mapa en la pared, al revisarlo te diste cuenta que decía la ubicación de un secreto, esta bajo esa madera', 'Ves un mapa en la pared, pero no podes entenderlo...', 'Mapa', '.i5', './images/cuarto_1_tabla.jpg');
+    handleItemClick('.i4', 'Marcos', 'Te metes en el agujero, ¡Has encontrado una piedra para afilar!', 'Intentas ver que hay en el agujero, pero es muy estrecho', 'Piedra para afilar');
+    handleItemClick('.i5', 'Lucio', '¡Has encontrado un amuleto de velocidad, tu velocidad sube en una estrella!', 'si lees esto el codigo fallo', 'Amuleto de Velocidad', null, null, true); // Aumentar velocidad en 12%
+
+    // Almacenar la elección del personaje en localStorage
+    document.querySelectorAll('.choose-character').forEach(button => {
+        button.addEventListener('click', () => {
+            const personaje = button.getAttribute('data-character');
+            localStorage.setItem('personajeSeleccionado', personaje);
+            console.log(`${personaje} ha sido elegido.`);
         });
     });
-
-    // Opcional: Recuperar el personaje seleccionado en otras páginas
-    const selectedCharacter = localStorage.getItem('selectedCharacter');
-    if (selectedCharacter) {
-        console.log('Personaje seleccionado previamente:', selectedCharacter);
-        // Aquí puedes usar el personaje seleccionado para personalizar la página
-    }
-
-    // Definición de clases
-    class Personaje {
-        constructor(nombre, vida, defensa, velocidad, fuerza, destreza, calma, puzzle) {
-            this.nombre = nombre;
-            this.vida = vida;
-            this.defensa = defensa;
-            this.velocidad = velocidad;
-            this.fuerza = fuerza;
-            this.destreza = destreza;
-            this.calma = calma;
-            this.puzzle = puzzle;
-        }
-
-        actualizarEstadisticas(vida, defensa, velocidad, fuerza, destreza, calma, puzzle) {
-            this.vida = vida;
-            this.defensa = defensa;
-            this.velocidad = velocidad;
-            this.fuerza = fuerza;
-            this.destreza = destreza;
-            this.calma = calma;
-            this.puzzle = puzzle;
-        }
-    }
-
-    // Crear instancias para cada personaje con estadísticas vacías
-    const lisandro = new Personaje("Lisandro", 40, 20, 40, 30, 30, 30, 10);
-    const lucio = new Personaje("Lucio", 50, 30, 10, 40, 20, 20, 30);
-    const marcos = new Personaje("Marcos", 30, 10, 20, 10, 50, 40, 40);
-
-    console.log(lisandro);
-    console.log(lucio);
-    console.log(marcos);
-    console.log(selectedCharacter)
 });
