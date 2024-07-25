@@ -37,43 +37,48 @@ img{
     
 }
 
+li{
+    color: white;
+    font-size:3vh;
+}
+
 h1{
     color: white;
-    font-size:140%;
+    font-size:5vh;
 }
 
 h3{
     color: white;
-    font-size:110%;
+    font-size:3.5vh;
     text-align: center;
 }
 
 h4{
     color: white;
-    font-size:80%;
+    font-size:4vh;
 }
 
 p{
     
     color: white;
-    font-size:95%;
+    font-size:2.8vh;
     
 }
 
 header{
     text-align: center;
-    border: 3px solid #c2c2c2;
-    border-radius: 55px;
-    margin-bottom: 3%;
-    padding: 2%;
+    border: 0.5vh solid #c2c2c2;
+    border-radius: 10vh;
+    margin-bottom: 4vh;
+    padding: 1vh 1vh;
 }
 
 .opciones{
     display: inline-block;
-    border: 3px solid #c2c2c2;
-    border-radius: 55px;
-    margin: 3%;
-    width: 26%;
+    border: 0.5vh solid #c2c2c2;
+    border-radius: 8vh;
+    margin: 2vh;
+    width: 40vh;
     
 }
 
@@ -96,11 +101,11 @@ button{
     border: 2px solid #c2c2c2;
     margin: 5%;
     background-color:#6d0808 ;
-    padding: 14px 28px;
+    padding: 3vh 4vh;
     color: white;
-    border-radius: 10px;
+    border-radius: 4vh;
     width: auto;
-    font-size: 65%;
+    font-size: 4vh;
 }
 
 button:hover{
@@ -119,18 +124,22 @@ button:hover{
 .image-container {
     position: relative;
     display: inline-block; /* Asegúrate de que el contenedor se ajuste al tamaño de las imágenes */
-    width: 100%; /* Ajusta según el tamaño deseado */
+    width: 200%; /* Ajusta según el tamaño deseado */
     max-width: 100%;
+}
+
+img.image{
+    width: 35vh;
+    height: 35vh;
 }
 
 image,
 .hover-image {
     display: block;
-    width: 85%;
-    height: 98%;
+    width: 30vh;
     object-fit: cover;
     transition: opacity 0.5s;
-    margin-left: 7.5%;
+    margin-left: 5vh;
 }
 
 .hover-image {
@@ -138,6 +147,7 @@ image,
     top: 0;
     left: 0;
     opacity: 0;
+    margin-left: 2.5vh;
 }
 
 .image-container:hover .hover-image {
@@ -146,18 +156,18 @@ image,
 }
 
 .descripciones_pj{
-    font-size: 20px;
+    font-size: 2.3vh;
     margin: 3%;
     margin-left: 14%;
     text-align: left;
 }
 
 #toggle-audio{
-    margin: 1%;
-    width: 12%;
+    margin: 2.5vh;
+    width: 25vh;
     height: 2%;
-    font-size: 90%;
-    border-radius: 25px;
+    font-size: 3vh;
+    border-radius: 4vh;
     border: none;
 }
 
@@ -209,31 +219,220 @@ image,
 .i1{
     left: 47%;
     width: 4%;
-    top: 56%;
+    top: 46%;
 }
 
 .i2 {
     width: 3%; /* Tamaño de los items */
-    transform: scale(0.8) rotate(60deg) skew(-30deg, -20deg);
+    transform: scale(0.8) rotate(42deg) skew(-30deg, -20deg);
     border-radius: 0;
-    top: 37%;
+    top: 5%;
     left: 57%;
 }
 
 .i3{
     left: 36%;
-    top: 46%;
+    top: 24%;
 }
 
 .i4{
     left: 36%;
-    top: 54%;
-    height: 8%;
+    top: 38%;
+    height: 18%;
     width: 5%;
 }
 
 .i5{
     left: 39%;
-    top: 75%;
+    top: 86%;
     transform: rotate(60deg) ;
+}
+
+.siguiente_btn{
+    display: block;            /* Asegúrate de que el contenedor sea un bloque */
+    text-align: center;
+    font-size: 4vh;
+}
+
+#pasillo_pelea{
+    max-width: 100%; /* Asegúrate de que la imagen no desborde el contenedor */
+    width: 70%;
+    border: 2px solid rgb(184, 182, 182);
+}
+
+#pasillo_pelea {
+    width: 65%;
+    border-radius: 10px;
+}
+
+.overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    grid-template-rows: 1fr 1fr;
+    gap: 0.5vh;
+    padding: 20px;
+    pointer-events: none; /* This will make the overlay not intercept mouse events */
+}
+
+.actions {
+    display: flex;
+    flex-direction: column;
+    background-color: rgba(0, 0, 0, 0.8); /* Slightly transparent background */
+    padding: 3vh;
+    border-radius: 2vh;
+    pointer-events: all; /* This will allow interaction with the buttons */
+    height: 27.5vh; /* Ajusta el tamaño de acuerdo al contenido */
+    width: 30vh; /* Ajusta el tamaño de acuerdo al contenido */
+    border: 0.4vh solid rgb(184, 182, 182);
+    margin-top: 150%; /* Ajusta el contenedor hacia abajo según sea necesario */
+    margin-left: 51%; /* Ajusta el contenedor hacia la izquierda según sea necesario */
+}
+
+.actions button {
+    padding: 1vh;
+    margin: 1vh;
+    font-size: 2.5vh;
+    cursor: pointer;
+
+}
+
+.accion_btn{
+    border-radius: 1vh;
+}
+
+.console_pelea {
+    padding: 10px;
+    border-radius: 2vh;
+    overflow-y: auto;
+    pointer-events: all; /* Esto permitirá la interacción con la consola */
+    border: 0.4vh solid #ccc;
+    background-color: #000;
+    color: #fff;
+    width: 69vh; /* Ajusta el tamaño de acuerdo al contenido */
+    height: 13vh; /* Ajusta el tamaño de acuerdo al contenido */
+    margin: 2% auto; /* Centra el contenedor verticalmente y ajusta el espacio superior */
+    margin-right: 18%; /* Ajusta el contenedor hacia la derecha según sea necesario */
+    margin-left: 8%; /* Ajusta el contenedor hacia la izquierda según sea necesario */
+    margin-top: 75%;
+    margin-bottom: 26%;
+}
+
+.inventario {
+    padding: 10px;
+    border-radius: 2vh;
+    background-color: rgba(0, 0, 0, 0.8); /* Fondo semi-transparente */
+    border: 0.4vh solid rgb(184, 182, 182);
+    width: 69vh; /* Ajusta el tamaño según sea necesario */
+    height: 14vh; /* Ajusta el tamaño según sea necesario */
+    grid-column: 2 / 3;
+    grid-row: 2 / 3;
+    overflow-y: auto; /* Permite el desplazamiento si hay muchos ítems */
+    margin: 2% auto; /* Centra el contenedor verticalmente y ajusta el espacio superior */
+    margin-right: 18%; /* Ajusta el contenedor hacia la derecha según sea necesario */
+    margin-left: 8%; /* Ajusta el contenedor hacia la izquierda según sea necesario */
+    margin-top: -25%;
+
+    /* Flexbox ajustado para la visualización de ítems */
+    display: flex;
+    flex-wrap: wrap; /* Permite que los ítems se ajusten si no caben en una sola línea */
+    align-items: center; /* Alinea los ítems verticalmente en el centro */
+    justify-content: flex-start; /* Alinea los ítems al principio del contenedor */
+}
+
+.inventario h3 {
+    margin: 0;
+    color: #fff;
+}
+
+.inventario ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    color: #fff;
+    display: flex; /* Muestra los ítems en una fila */
+    flex-wrap: wrap; /* Permite que los ítems se ajusten si hay muchos */
+    gap: 10px; /* Espacio entre los ítems */
+}
+
+.inventario li {
+    padding: 5px 10px;
+    background-color: #0f356e; /* Color de fondo para los ítems */
+    border-radius: 5px; /* Bordes redondeados para los ítems */
+    color: #fff;
+    margin: 2px; /* Espacio entre los ítems */
+    display: inline-block; /* Permite que los ítems se muestren en línea */
+    pointer-events: none; /* Desactiva la interacción inicialmente */
+    opacity: 0.5; /* Hace que los ítems se vean desactivados */
+    cursor: not-allowed; /* Cambia el cursor para indicar que no se puede interactuar */
+}
+
+.inventario li.activable {
+    pointer-events: auto; /* Habilita la interacción */
+    opacity: 1; /* Vuelve a la opacidad normal */
+    cursor: pointer; /* Cambia el cursor para indicar que se puede hacer clic */
+}
+
+.inventario li.apagado {
+    background-color: #1a2a57; /* Color de fondo más oscuro para ítems apagados */
+    opacity: 0.5; /* Tonalidad más clara para ítems apagados */
+}
+
+
+
+
+.battle-container {
+    position: relative;
+    display: flex;
+    justify-content: center;
+}
+
+#jose{
+    position: absolute;
+    z-index: 3;
+    transform: scale(0.25);
+    top: -14vh;
+    left: 15vh;
+}
+
+
+.console_pelea{
+    font-size: 2vh;
+}
+
+
+/* Contenedor de la barra de vida */
+.health-bar-container {
+    position: absolute;
+    width: 200px; /* Ancho total de la barra */
+    height: 30px; /* Altura total de la barra */
+    margin: 20px; /* Espacio alrededor de la barra */
+    margin-top: 83vh;
+    margin-left: 118vh;
+    z-index: 5;
+}
+
+/* Fondo de la barra de vida */
+.health-bar-background {
+    background-color: rgb(202, 202, 202); /* Color del fondo */
+    width: 100%;
+    height: 100%;
+    overflow: hidden; /* Ocultar el contenido que sobresale */
+    position: relative;
+    z-index: 4;
+}
+
+/* Primer nivel de la barra de vida (rojo) */
+.health-bar-foreground {
+    background-color: red; /* Color de la vida */
+    width: 100%; /* Ancho inicial al 100%, se puede ajustar con JS */
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    transition: width 0.5s ease; /* Animación para el cambio de tamaño */
 }

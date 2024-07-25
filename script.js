@@ -60,9 +60,6 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 });
 
-
-
-
 // DEFINICION CLASES
 document.addEventListener('DOMContentLoaded', () => {
     // Recuperar la elección del personaje desde localStorage
@@ -71,8 +68,10 @@ document.addEventListener('DOMContentLoaded', () => {
         console.log(`${personajeGuardado} ha sido restaurado desde localStorage.`);
     }
 
-    // Limpiar el inventario al comenzar una nueva partida
-    localStorage.removeItem('inventory'); // Esto asegura que el inventario está vacío al reiniciar el juego
+    // Inicializar el inventario vacío
+    let inventory = JSON.parse(localStorage.getItem('inventory')) || [];
+    console.log('Inventario inicial:', inventory); // Mostrar el inventario inicial vacío
+    updateInventoryUI(); // Actualiza la interfaz del inventario
 
     // Definición de personajes y sus estadísticas
     const personajes = {
@@ -98,7 +97,7 @@ document.addEventListener('DOMContentLoaded', () => {
             vida: 30,
             defensa: 0.10,
             velocidad: 0.17,
-            fuerza: 5, // + 5 con cuchillo mariposa (esto se añadirá cuando se equipen armas)
+            fuerza: 10, 
             destreza: 0.60,
             calma: 0.80,
             puzzle: 40
@@ -106,28 +105,39 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     // Recuperar el personaje actual y sus estadísticas
-    let personaje = personajes[personajeGuardado];
-    if (!personaje) {
-        // Si no hay personaje guardado, usa el primer personaje por defecto
-        personaje = personajes.Lisandro;
-    }
-    
-    // Actualizar estadísticas del personaje
-    function updateCharacterStats() {
-        personajes[personajeGuardado] = personaje;
-    }
-
-    let inventory = JSON.parse(localStorage.getItem('inventory')) || [];
-    console.log('Inventario inicial:', inventory);
+    let personaje = personajes[personajeGuardado] || personajes.Lisandro;
 
     // Función para actualizar el inventario en localStorage
     function updateInventory(itemName) {
-        // Asegurarse de que el inventario está vacío cuando se comienza una nueva partida
         inventory = JSON.parse(localStorage.getItem('inventory')) || [];
         if (!inventory.includes(itemName)) {
             inventory.push(itemName);
             localStorage.setItem('inventory', JSON.stringify(inventory));
             console.log('Inventario actual:', inventory); // Mostrar el inventario completo
+            updateInventoryUI(); // Actualiza la interfaz del inventario
+        }
+    }
+
+    // Función para actualizar la interfaz del inventario
+    function updateInventoryUI() {
+        const inventoryList = document.getElementById('inventario-list');
+        if (inventoryList) {
+            inventoryList.innerHTML = ''; // Limpia la lista actual
+            inventory.forEach(item => {
+                const li = document.createElement('li');
+                li.textContent = item;
+                li.setAttribute('data-item', item);
+                li.classList.add('inventory-item'); // Añadir clase para estilizar o identificar los elementos
+                inventoryList.appendChild(li);
+    
+                // Añadir manejador de eventos de clic a cada elemento de la lista
+                li.addEventListener('click', () => {
+                    li.style.display = 'none'; // Ocultar el elemento cuando se hace clic
+                    // Opcional: eliminar el ítem del inventario
+                    inventory = inventory.filter(i => i !== item);
+                    localStorage.setItem('inventory', JSON.stringify(inventory));
+                });
+            });
         }
     }
 
@@ -139,15 +149,44 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
+    // Función para actualizar las estadísticas del personaje
+    function updateCharacterStats() {
+        console.log(`Estadísticas de ${personajeGuardado}:`);
+        console.log(`Vida: ${personaje.vida}`);
+        console.log(`Defensa: ${personaje.defensa}`);
+        console.log(`Velocidad: ${personaje.velocidad}`);
+        console.log(`Fuerza: ${personaje.fuerza}`);
+        console.log(`Destreza: ${personaje.destreza}`);
+        console.log(`Calma: ${personaje.calma}`);
+        console.log(`Puzzle: ${personaje.puzzle}`);
+    }
+
     // Función para manejar el clic en los ítems
-    function handleItemClick(itemClass, allowedCharacter, successMessage, failureMessage, itemName, showNewItemClass, newImageSrc, increaseSpeed) {
+    function handleItemClick(itemClass, allowedCharacter, successMessage, failureMessage, itemName, showNewItemClass, newImageSrc, setSpeed, increaseDamage) {
         const itemElement = document.querySelector(itemClass);
         if (itemElement) {
             itemElement.addEventListener('click', () => {
                 if (personajeGuardado === allowedCharacter) {
                     itemElement.style.display = 'none';
                     updateConsole(successMessage);
-                    updateInventory(itemName); // Guardar el ítem en el inventario
+    
+                    // No guardar el ítem en el inventario si es 'Mapa', 'Amuleto de Velocidad', o 'Piedra para Afilar'
+                    if (itemName !== 'Mapa' && itemName !== 'Amuleto de Velocidad' && itemName !== 'Piedra para afilar') {
+                        updateInventory(itemName); // Guardar el ítem en el inventario, excepto los ítems mencionados
+                    }
+    
+                    // Actualizar estadísticas según el ítem
+                    if (increaseDamage !== undefined) {
+                        personaje.fuerza += increaseDamage; // Aumentar el daño del personaje
+                        console.log(`El daño de ${personajeGuardado} ha sido incrementado en ${increaseDamage}`);
+                    }
+                    if (setSpeed !== null && setSpeed !== undefined) {
+                        personaje.velocidad = setSpeed; // Establecer la velocidad a un valor específico
+                        console.log(`La velocidad de ${personajeGuardado} ha sido establecida en ${personaje.velocidad}`);
+                    }
+    
+                    updateCharacterStats(); // Actualizar las estadísticas del personaje
+                    
                     if (showNewItemClass) {
                         document.querySelector(showNewItemClass).style.display = 'block'; // Mostrar el nuevo ítem
                     }
@@ -157,17 +196,13 @@ document.addEventListener('DOMContentLoaded', () => {
                             imageElement.src = newImageSrc; // Cambiar la imagen
                         }
                     }
-                    if (increaseSpeed) {
-                        personaje.velocidad += 0.12; // Aumentar la velocidad en un 12%
-                        updateCharacterStats(); // Actualizar las estadísticas del personaje
-                        console.log(`La velocidad de ${personajeGuardado} ha aumentado a ${personaje.velocidad}`);
-                    }
                 } else {
                     updateConsole(failureMessage);
                 }
             });
         }
     }
+    
 
     // Función para verificar la visibilidad del ítem i5 según la imagen de fondo
     function updateItemVisibility() {
@@ -189,8 +224,8 @@ document.addEventListener('DOMContentLoaded', () => {
     handleItemClick('.i1', 'Marcos', 'Metes la cabeza y con la mano alcanzas algo, ¡Has encontrado un coffler air a la mitad!', 'Ves que hay un objeto, pero tu brazo no entra para agarrarlo...', 'Coffler Air a la mitad');
     handleItemClick('.i2', 'Lisandro', 'Agarras un coffler air del techo', 'Ves un coffler air en el techo, pero no llegas a agarrarlo', 'Coffler Air');
     handleItemClick('.i3', 'Lucio', 'Encontraste un mapa en la pared, al revisarlo te diste cuenta que decía la ubicación de un secreto, esta bajo esa madera', 'Ves un mapa en la pared, pero no podes entenderlo...', 'Mapa', '.i5', './images/cuarto_1_tabla.jpg');
-    handleItemClick('.i4', 'Marcos', 'Te metes en el agujero, ¡Has encontrado una piedra para afilar!', 'Intentas ver que hay en el agujero, pero es muy estrecho', 'Piedra para afilar');
-    handleItemClick('.i5', 'Lucio', '¡Has encontrado un amuleto de velocidad, tu velocidad sube en una estrella!', 'si lees esto el codigo fallo', 'Amuleto de Velocidad', null, null, true); // Aumentar velocidad en 12%
+    handleItemClick('.i4', 'Marcos', 'Te metes en el agujero, ¡Has encontrado una piedra para afilar! tu cuchillo hace el doble de daño', 'Intentas ver que hay en el agujero, pero es muy estrecho', 'Piedra para afilar', null, null, null, 5);
+    handleItemClick('.i5', 'Lucio', '¡Has encontrado un amuleto de velocidad!, tu velocidad sube en una estrella', 'si lees esto el código falló', 'Amuleto de Velocidad', null, null, 0.12); // Establecer velocidad en 0.12
 
     // Almacenar la elección del personaje en localStorage
     document.querySelectorAll('.choose-character').forEach(button => {
@@ -198,6 +233,26 @@ document.addEventListener('DOMContentLoaded', () => {
             const personaje = button.getAttribute('data-character');
             localStorage.setItem('personajeSeleccionado', personaje);
             console.log(`${personaje} ha sido elegido.`);
+
+            // Limpiar el inventario cuando se elige un personaje
+            localStorage.removeItem('inventory');
+            inventory = []; // Vaciar la variable de inventario
+            updateInventoryUI(); // Actualizar la interfaz del inventario
         });
     });
 });
+
+document.addEventListener('DOMContentLoaded', () => {
+    const usarItemBtn = document.getElementById('usar-item-btn');
+    const inventarioItems = document.querySelectorAll('.inventario li');
+
+    usarItemBtn.addEventListener('click', () => {
+        // Añade la clase 'activable' a todos los ítems
+        inventarioItems.forEach(item => {
+            item.classList.add('activable');
+        });
+    });
+});
+
+
+

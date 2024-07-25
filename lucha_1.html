@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cumple 15 Lisandro</title>
+    <link rel="stylesheet" href="./style.css">
+    <link rel="icon" href="./15.ico" type="image/ico">
+</head>
+<body>
+    <audio id="background-audio" src="./sonidos/mk_audio.mp3" loop></audio> 
+    <div class="background-container">
+        <button id="toggle-audio">▶ Musica</button>
+        <header>
+            <h1>Pasillo</h1>
+        </header>
+        <hr>
+        <div class="descripcion">
+            <p>
+                Estaba avanzando para encontrar otra salida, cuando de repente una sombra me corta el paso, era Jose...
+            </p>
+        </div>
+        <hr>
+        <h3>Pelea</h3>
+        <img src="./images/jose.png" id="jose">
+        <div class="health-bar-container">
+            <div class="health-bar-background">
+                <div class="health-bar-foreground"></div>
+            </div>
+        </div>
+        <div class="battle-container ">
+            <img src="./images/pasillo_pelea_largo.jpg" id="pasillo_pelea">
+            <div class="overlay">
+                <div class="actions">
+                    <button class="accion_btn">Atacar</button>
+                    <button class="accion_btn">Esquivar</button>
+                    <button class="accion_btn" id="usar-item-btn">Usar Item</button>
+                    <button class="accion_btn">Huir</button>
+                </div>
+                <div class="console console_pelea">
+                    <h3></h3>
+                    <div id="console-output"></div>
+                </div>
+                <div class="inventario">
+                    <ul id="inventario-list">
+                        <!-- La lista está vacía inicialmente -->
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <a class="siguiente_btn" href="./lu.html">
+            <button >Siguiente</button>
+        </a>
+        <hr>
+    </div>
+    <script src="./script.js">
+    </script>
+</body>
+</html>
